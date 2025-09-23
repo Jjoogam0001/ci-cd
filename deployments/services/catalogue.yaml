@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue
+  namespace: services
+  labels:
+    app: catalogue
+    tier: backend
+    env: test00
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalogue
+  template:
+    metadata:
+      labels:
+        app: catalogue
+    spec:
+      containers:
+        - name: catalogue
+          image: martin2020i/catalogue:v6.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://mongodb-0.mongodb.database.svc.cluster.local:27017"
+            - name: GO_SLOW
+              value: "0"
+            - name: CATALOGUE_SERVER_PORT
+              value: "8080"
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "curl -H 'X-INSTANA-SYNTHETIC: 1' -f http://localhost:8080/health"
+            initialDelaySeconds: 10
+            periodSeconds: 3600
+            timeoutSeconds: 10
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+              httpHeaders:
+                - name: X-INSTANA-SYNTHETIC
+                  value: "1"
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+  namespace: services
+  labels:
+    app: catalogue
+    tier: backend
+    env: test00
+spec:
+  selector:
+    app: catalogue
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

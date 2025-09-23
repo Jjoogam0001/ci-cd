@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: services
+  labels:
+    app: user
+    tier: backend
+    env: test00
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+        - name: user
+          image: "martin2020i/user:v6.0.0"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_URL
+              value: "mongodb://mongodb-0.mongodb.default.svc.cluster.local:27017/user"
+            - name: REDIS_HOST
+              value: "redis-0.redis.database.svc.cluster.local:6379"
+            - name: USER_SERVER_PORT
+              value: "8080"
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "curl -H 'X-INSTANA-SYNTHETIC: 1' -f http://localhost:8080/health"
+            initialDelaySeconds: 10
+            periodSeconds: 3600  # scheduled readiness check every hour
+            timeoutSeconds: 10
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+              httpHeaders:
+                - name: X-INSTANA-SYNTHETIC
+                  value: "1"
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  namespace: services
+  labels:
+    app: user
+    tier: backend
+    env: test00
+spec:
+  selector:
+    app: user
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

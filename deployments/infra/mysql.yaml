@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: database
+  labels:
+    app: mysql
+    tier: database
+    env: test00
+spec:
+  serviceName: "mysql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: "martin2020i/mysql:v6.0.0"
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              value: "cities"
+            - name: MYSQL_PASSWORD
+              value: "secret"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - mysqladmin ping -h 127.0.0.1
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: database
+  labels:
+    app: mysql
+    tier: database
+    env: test00
+spec:
+  clusterIP: None
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306

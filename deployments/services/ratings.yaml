@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratings
+  namespace: services
+  labels:
+    app: ratings
+    tier: backend
+    env: test00
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ratings
+  template:
+    metadata:
+      labels:
+        app: ratings
+    spec:
+      containers:
+        - name: ratings
+          image: "martin2020i/ratings:v6.0.0"
+          ports:
+            - containerPort: 80
+          env:
+            - name: APP_ENV
+              value: "test00"
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "curl -H \"X-INSTANA-SYNTHETIC: 1\" -f http://localhost/_health"]
+            initialDelaySeconds: 10
+            periodSeconds: 3600
+            timeoutSeconds: 10
+            failureThreshold: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ratings
+  namespace: services
+  labels:
+    app: ratings
+    tier: backend
+    env: test00
+spec:
+  selector:
+    app: ratings
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

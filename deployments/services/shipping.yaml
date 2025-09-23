@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shipping
+  template:
+    metadata:
+      labels:
+        app: shipping
+    spec:
+      containers:
+        - name: shipping
+          image: "martin2020i/shipping:v6.0.0"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: "mysql-0.mysql.database.svc.cluster.local:3306"
+            - name: CART_ENDPOINT
+              value: "http://cart:8080"
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "curl -H \"X-INSTANA-SYNTHETIC: 1\" -f http://localhost:8080/health"]
+            initialDelaySeconds: 10
+            periodSeconds: 3600   # scheduled once per hour
+            timeoutSeconds: 10
+            failureThreshold: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+  namespace: default
+spec:
+  selector:
+    app: shipping
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

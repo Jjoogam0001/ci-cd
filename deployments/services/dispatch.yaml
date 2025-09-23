@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dispatch
+  namespace: services
+  labels:
+    app: dispatch
+    tier: backend
+    env: test00
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dispatch
+  template:
+    metadata:
+      labels:
+        app: dispatch
+    spec:
+      containers:
+        - name: dispatch
+          image: "martin2020i/dispatch:v6.0.0"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AMQP_HOST
+              value: "rabbitmq-0.rabbitmq.database.svc.cluster.local:5672"
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - curl -f http://localhost:8080/health || exit 1
+            initialDelaySeconds: 10
+            periodSeconds: 3600 
+            timeoutSeconds: 10
+            failureThreshold: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dispatch
+  namespace: services
+  labels:
+    app: dispatch
+    tier: backend
+    env: test00
+spec:
+  selector:
+    app: dispatch
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

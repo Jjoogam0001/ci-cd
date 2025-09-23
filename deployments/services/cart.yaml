@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: services
+  labels:
+    app: cart
+    tier: backend
+    env: test00
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cart
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      containers:
+        - name: cart
+          image: "martin2020i/cart:v6.0.0"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_HOST
+              value: "redis-0.redis.database.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "curl -H 'X-INSTANA-SYNTHETIC: 1' -f http://localhost:8080/health"
+            initialDelaySeconds: 10
+            periodSeconds: 3600
+            timeoutSeconds: 10
+            failureThreshold: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  namespace: services
+  labels:
+    app: cart
+    tier: backend
+    env: test00
+spec:
+  selector:
+    app: cart
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
