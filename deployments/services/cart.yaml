@@ -24,17 +24,15 @@ spec:
             - containerPort: 8080
           env:
             - name: REDIS_HOST
-              value: "redis-0.redis.database.svc.cluster.local"
-            - name: REDIS_PORT
-              value: "6379"
+              value: "redis-0.redis.database.svc.cluster.local:6379"
             - name: CATALOGUE_HOST
               value: "http://catalogue:8080"
           resources:
             requests:
-              cpu: 50m       # reduce from 250m
-              memory: 128Mi  # optional reduction
+              cpu: 50m       
+              memory: 128Mi 
             limits:
-              cpu: 100m      # reduce from 500m
+              cpu: 100m
               memory: 256Mi
           readinessProbe:
             httpGet:
