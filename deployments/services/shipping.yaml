@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: "jdbc:mysql://mysql.database.svc.cluster.local:3306/shipping?user=shipping&password=secret"
+              value: "mysql.database.svc.cluster.local:3306/shipping?user=shipping&password=secret&useSSL=false&autoReconnect=true"
             - name: CART_ENDPOINT
               value: "http://cart:8080"
             - name: INSTANA_AGENT_HOST
