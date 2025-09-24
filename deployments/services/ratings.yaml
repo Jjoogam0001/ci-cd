@@ -28,7 +28,11 @@ spec:
             - name: CATALOGUE_URL
               value: "http://catalogue:8080"
             - name: PDO_URL
-              value: "mysql:ratings@tcp(mysql.database.svc.cluster.local:3306)/ratings"
+              value: "mysql:host=mysql.database.svc.cluster.local;port=3306;dbname=ratings"
+            - name: PDO_USER
+              value: "ratings"
+            - name: PDO_PASSWORD
+              value: ""
           readinessProbe:
             exec:
               command: ["sh", "-c", "curl -H \"X-INSTANA-SYNTHETIC: 1\" -f http://localhost/_health"]
