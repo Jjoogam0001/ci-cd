@@ -26,17 +26,7 @@ spec:
             - name: AMQP_HOST
               value: "rabbitmq.database.svc.cluster.local"
             - name: DISPATCH_ERROR_PERCENT
-              value: "5"
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - curl -f http://localhost:8080/health || exit 1
-            initialDelaySeconds: 10
-            periodSeconds: 3600 
-            timeoutSeconds: 10
-            failureThreshold: 1
+              value: "0"
           resources:
             requests:
               cpu: 100m
