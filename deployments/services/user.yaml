@@ -32,27 +32,7 @@ spec:
             - name: INSTANA_AGENT_HOST
               value: "212.227.245.234"
             - name: INSTANA_AGENT_ENDPOINT_PORT
-              value: "42699" 
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "curl -H 'X-INSTANA-SYNTHETIC: 1' -f http://localhost:8080/health"
-            initialDelaySeconds: 10
-            periodSeconds: 3600  # scheduled readiness check every hour
-            timeoutSeconds: 10
-            failureThreshold: 1
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-              httpHeaders:
-                - name: X-INSTANA-SYNTHETIC
-                  value: "1"
-            initialDelaySeconds: 15
-            periodSeconds: 20
-            timeoutSeconds: 5
+              value: "42699"
           resources:
             requests:
               cpu: 50m

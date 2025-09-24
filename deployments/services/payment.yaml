@@ -42,16 +42,6 @@ spec:
             limits:
               cpu: 100m
               memory: 256Mi
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "curl -H 'X-INSTANA-SYNTHETIC: 1' -f http://localhost:8080/health"
-            initialDelaySeconds: 10
-            periodSeconds: 3600   
-            timeoutSeconds: 10
-            failureThreshold: 1
       restartPolicy: Always
 ---
 apiVersion: v1
