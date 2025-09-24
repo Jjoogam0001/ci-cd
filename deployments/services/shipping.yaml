@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DB_HOST
-              value: "mysql-0.mysql.database.svc.cluster.local:3306"
+              value: "mysql:shipping@tcp(mysql.database.svc.cluster.local:3306)/shipping"
             - name: CART_ENDPOINT
               value: "http://cart:8080"
           readinessProbe:
