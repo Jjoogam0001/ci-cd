@@ -26,7 +26,7 @@ spec:
             - name: REDIS_HOST
               value: "redis.database.svc.cluster.local"
             - name: CATALOGUE_HOST
-              value: "http://catalogue:8080"
+              value: "catalogue"
             - name: INSTANA_AUTO_PROFILE 
               value: "true"
             - name: INSTANA_AGENT_HOST

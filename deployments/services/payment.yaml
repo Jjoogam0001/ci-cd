@@ -28,11 +28,11 @@ spec:
             - name: PAYMENT_GATEWAY
               value: "https://www.worldpay.com"
             - name: CART_HOST
-              value: "http://cart:8080"
+              value: "cart"
             - name: USER_HOST
-              value: "http://user:8080"
+              value: "user"
             - name: INSTANA_AGENT_HOST
-              value: "212.227.245.234"
+              value: "instana-agent"
             - name: INSTANA_AGENT_ENDPOINT_PORT
               value: "42699" 
           resources:
