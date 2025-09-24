@@ -24,9 +24,9 @@ spec:
             - containerPort: 80
           env:
               - name: INSTANA_EUM_KEY
-                value: "<your eum key>"
+                value: "P3JcPHFET3azEojXKpgVRA"
               - name: INSTANA_EUM_REPORTING_URL
-                value: "<your reporting url>"
+                value: "https://ingress-blue-saas.instana.io"
           readinessProbe:
             exec:
               command:

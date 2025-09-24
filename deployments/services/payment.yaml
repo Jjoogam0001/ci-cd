@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: AMQP_HOST
-              value: "rabbitmq-0.rabbitmq.default.svc.cluster.local:5672"
+              value: "rabbitmq-0.rabbitmq.database.svc.cluster.local:5672"
             - name: PAYMENT_GATEWAY
               value: "https://www.worldpay.com"
             - name: CART_HOST
