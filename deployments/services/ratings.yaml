@@ -28,7 +28,7 @@ spec:
             - name: CATALOGUE_URL
               value: "http://catalogue:8080"
             - name: PDO_URL
-              value: "mysql:host=mysql;dbname=ratings;charset=utf8mb4"
+              value: "mysql:host=mysql.database.svc.cluster.local;dbname=ratings;charset=utf8mb4"
             - name: PDO_USER
               value: "ratings"
             - name: PDO_PASSWORD
