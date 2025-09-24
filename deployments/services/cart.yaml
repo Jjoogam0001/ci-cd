@@ -29,6 +29,10 @@ spec:
               value: "http://catalogue:8080"
             - name: INSTANA_AUTO_PROFILE 
               value: "true"
+            - name: INSTANA_AGENT_ENDPOINT
+              value: "instana-agent.instana-agent.svc.cluster.local"
+            - name: INSTANA_AGENT_ENDPOINT_PORT
+              value: "42699"    
           resources:
             requests:
               cpu: 50m       
