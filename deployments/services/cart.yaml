@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: REDIS_HOST
-              value: "redis.database.svc.cluster.local:6379"
+              value: "redis.database.svc.cluster.local"
             - name: CATALOGUE_HOST
               value: "http://catalogue:8080"
             - name: INSTANA_AUTO_PROFILE 
