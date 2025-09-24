@@ -47,6 +47,10 @@ spec:
                 value: "shipping:8080"
               - name: INSTANA_SERVICE_NAME
                 value: "instana-agent"
+              - name: REDIS_HOST
+                value: "redis.database.svc.cluster.local"
+              - name: MONGO_URL
+                value: "mongodb://mongodb.database.svc.cluster.local:27017/users"
           resources:
             requests:
               cpu: 50m
