@@ -32,7 +32,7 @@ spec:
             - name: PDO_USER
               value: "ratings"
             - name: PDO_PASSWORD
-              value: ""
+              value: "iloveit"
           readinessProbe:
             exec:
               command: ["sh", "-c", "curl -H \"X-INSTANA-SYNTHETIC: 1\" -f http://localhost/_health"]
