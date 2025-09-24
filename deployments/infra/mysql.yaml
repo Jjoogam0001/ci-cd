@@ -58,8 +58,12 @@ spec:
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
-          requests:
-            storage: 5Gi
+            limits:
+              memory: "1Gi"
+              cpu: "125m"
+            requests:
+              memory: "128Mi"
+              cpu: "125m"
 ---
 apiVersion: v1
 kind: Service

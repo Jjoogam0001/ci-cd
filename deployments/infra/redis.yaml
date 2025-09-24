@@ -9,7 +9,7 @@ metadata:
     env: test00
 spec:
   serviceName: "redis"
-  replicas: 2  
+  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -28,11 +28,11 @@ spec:
               mountPath: /data
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "250m"
+              memory: "1Gi"
+              cpu: "125m"
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: "128Mi"
+              cpu: "125m"
           command: ["redis-server", "--appendonly", "yes"]
       restartPolicy: Always
   volumeClaimTemplates:

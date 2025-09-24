@@ -8,7 +8,7 @@ metadata:
     tier: backend
     env: test00
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: shipping
@@ -35,12 +35,12 @@ spec:
             timeoutSeconds: 10
             failureThreshold: 1
           resources:
-            requests:
-              cpu: 250m
-              memory: 256Mi
             limits:
-              cpu: 500m
-              memory: 512Mi
+              memory: "512Mi"
+              cpu: "125m"
+            requests:
+              memory: "128Mi"
+              cpu: "125m"
       restartPolicy: Always
 ---
 apiVersion: v1
