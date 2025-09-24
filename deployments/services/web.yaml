@@ -32,19 +32,19 @@ spec:
               - name: INSTANA_AGENT_PORT
                 value: "42699"
               - name: CATALOGUE_HOST
-                value: "catalogue:8080"
+                value: "catalogue"
               - name: DISPATCHER_HOST
-                value: "dispatch:8080"
+                value: "dispatch"
               - name: USER_HOST
-                value: "user:8080"
+                value: "user"
               - name: AMQP_HOST
                 value: "rabbitmq.database.svc.cluster.local"
               - name: CART_HOST
-                value: "cart:8080"
+                value: "cart"
               - name: PAYMENT_HOST
-                value: "payment:8080"
+                value: "payment"
               - name: SHIPPING_HOST
-                value: "shipping:8080"
+                value: "shipping"
               - name: INSTANA_SERVICE_NAME
                 value: "instana-agent"
               - name: REDIS_HOST
