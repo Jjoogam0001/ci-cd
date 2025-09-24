@@ -32,7 +32,7 @@ spec:
             - name: PDO_USER
               value: "ratings"
             - name: PDO_PASSWORD
-              value: "iloveit"
+              value: ""
             - name: LOGGER_NAME
               value: "RatingAPI"
             - name: INSTANA_AGENT_HOST
