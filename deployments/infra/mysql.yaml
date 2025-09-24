@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: "martin2020i/mysql:v6.0.0"
+          image: "martin2020i/mysql:v6.0.1"
           ports:
             - containerPort: 3306
           env:
