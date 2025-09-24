@@ -27,6 +27,10 @@ spec:
                 value: "P3JcPHFET3azEojXKpgVRA"
               - name: INSTANA_EUM_REPORTING_URL
                 value: "https://ingress-blue-saas.instana.io"
+              - name: INSTANA_AGENT_HOST
+                value: "instana-agent.instana-agent.svc.cluster.local"
+              - name: INSTANA_AGENT_PORT
+                value: "42699"
           readinessProbe:
             exec:
               command:
