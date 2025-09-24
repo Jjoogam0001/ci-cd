@@ -33,12 +33,12 @@ spec:
             timeoutSeconds: 10
             failureThreshold: 1
           resources:
-            limits:
-              memory: "512Mi"
-              cpu: "125m"
             requests:
-              memory: "128Mi"
-              cpu: "125m"
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
       restartPolicy: Always
 ---
 apiVersion: v1
