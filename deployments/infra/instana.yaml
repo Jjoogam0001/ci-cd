@@ -123,7 +123,7 @@ spec:
             - name: INSTANA_AGENT_ZONE
               value: "k8s"
             - name: INSTANA_AGENT_ENDPOINT_PORT
-              value: "443"
+              value: "42699"
             - name: INSTANA_AGENT_OTA_ENABLED
               value: "true"
             - name: INSTANA_AGENT_CLUSTER_NAME
