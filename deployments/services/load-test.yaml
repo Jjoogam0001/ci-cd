@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-test
+  namespace: services
+  labels:
+    app: load-test
+    tier: frontend
+    env: test00
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-test
+  template:
+    metadata:
+      labels:
+        app: load-test
+    spec:
+      containers:
+        - name: load-test
+          image: "martin2020i/load-test:v6.0.0"
+          ports:
+            - containerPort: 80
+          env:
+              - name: HOST
+                value: "robotex-test00.martsoft.se"
+              - name: NUM_CLIENTS
+                value: "1000"
+              - name: RUN_TIME
+                value: "6h30m"
+              - name:  SILENT
+                value: "1"
+              - name:  ERROR
+                value: "0"              
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: load-test
+  namespace: services
+  labels:
+    app: load-test
+    tier: frontend
+    env: test00
+spec:
+  selector:
+    app: load-test
+  ports:
+  - port: 80
+    targetPort: 80
