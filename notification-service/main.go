@@ -56,7 +56,7 @@ func main() {
 	)
 	failOnError(err, "Failed to declare queue")
 
-	routingKeys := []string{"order.created", "payment.completed", "shipment.requested"}
+	routingKeys := []string{"order.created", "payment.completed", "shipment.requested", "user.login", "user.count", "user.registered"}
 	for _, key := range routingKeys {
 		err = ch.QueueBind(
 			queue.Name,

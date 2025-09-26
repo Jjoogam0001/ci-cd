@@ -2,7 +2,7 @@
 # Variables
 # -------------------------
 IMAGE_NAME=martin2020i/notification-service
-TAG=v6.0.0
+TAG=v6.0.1
 DOCKERFILE=Dockerfile
 BUILD_CONTEXT=.
 
