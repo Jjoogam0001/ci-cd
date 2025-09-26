@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: "martin2020i/user:v6.0.0"
+          image: "martin2020i/user:v6.0.1"
           ports:
             - containerPort: 8080
           env:
