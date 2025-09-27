@@ -60,10 +60,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: web-service-ingress
+  name: robotex-ingress
   namespace: services
   labels:
-    app: web
+    app: robotex
     tier: frontend
     env: test00
   annotations:
@@ -78,6 +78,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: web
+            name: robotex
             port:
               number: 80
