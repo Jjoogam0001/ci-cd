@@ -1,91 +1,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: robotex
   namespace: services
   labels:
-    app: web
-    tier: frontend
-    env: test00
+    app: robotex
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: robotex
   template:
     metadata:
       labels:
-        app: web
+        app: robotex
     spec:
       containers:
-        - name: web
-          image: "martin2020i/web:v6.0.3"
+        - name: robotex
+          image: "martin2020i/web-new-version:v3.0.3"
           ports:
             - containerPort: 80
-          env:
-              - name: INSTANA_EUM_KEY
-                value: "P3JcPHFET3azEojXKpgVRA"
-              - name: INSTANA_EUM_REPORTING_URL
-                value: "https://ingress-blue-saas.instana.io"
-              - name: INSTANA_AGENT_HOST
-                value: "212.227.245.234"
-              - name: INSTANA_AGENT_PORT
-                value: "42699"
-              - name: CATALOGUE_HOST
-                value: "catalogue"
-              - name: DISPATCHER_HOST
-                value: "dispatch"
-              - name: USER_HOST
-                value: "user"
-              - name: AMQP_HOST
-                value: "rabbitmq.database.svc.cluster.local"
-              - name: CART_HOST
-                value: "cart"
-              - name: PAYMENT_HOST
-                value: "payment"
-              - name: SHIPPING_HOST
-                value: "shipping"
-              - name: INSTANA_SERVICE_NAME
-                value: "instana-agent"
-              - name: REDIS_HOST
-                value: "redis.database.svc.cluster.local"
-              - name: MONGO_URL
-                value: "mongodb://mongodb.database.svc.cluster.local:27017/users"
-              - name: INSTANA_DISABLE
-                value: "false"
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: "50m"
+              memory: "128Mi"
             limits:
-              cpu: 100m
-              memory: 256Mi
-      restartPolicy: Always
+              cpu: "100m"
+              memory: "512Mi"
+          env:
+            - name: CATALOGUE_HOST
+              value: catalogue
+            - name: USER_HOST
+              value: user
+            - name: CART_HOST
+              value: cart
+            - name: SHIPPING_HOST
+              value: shipping
+            - name: PAYMENT_HOST
+              value: payment
+            - name: RATINGS_HOST
+              value: ratings
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: robotex
   namespace: services
   labels:
-    app: web
-    tier: frontend
-    env: test00
+    app: robotex
 spec:
+  type: ClusterIP
   selector:
-    app: web
+    app: robotex
   ports:
-  - port: 80
-    targetPort: 80
-
+    - port: 80
+      targetPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: web-service-ingress
+  name: robotex-ingress
   namespace: services
   labels:
-    app: web
+    app: robotex
     tier: frontend
     env: test00
   annotations:
@@ -93,13 +70,13 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: robotex-test00.martsoft.se
+  - host: robotex.martsoft.se
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: web
+            name: robotex
             port:
               number: 80
