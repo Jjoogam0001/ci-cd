@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: robotex
-          image: "martin2020i/web-new-version:v3.0.0"
+          image: "martin2020i/web-new-version:v3.0.1"
           ports:
             - containerPort: 80
           resources:
